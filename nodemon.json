@@ -1,0 +1,13 @@
+{
+  "verbose": true,
+  "watch": [
+    "../hotbars/src/**/*.ts"
+  ],
+  "ignore": [
+    "./tests/**",
+    "../hotbars/src/client/_public/bundles/**"
+  ],
+  "execMap": {
+    "ts": "ts-node --project=../hotbars/tsconfig.web.json {{filename}} serve -D --configName .hotbarsrc.dev"
+  }
+}
