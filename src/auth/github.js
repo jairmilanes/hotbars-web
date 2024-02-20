@@ -6,7 +6,6 @@ class GithubAuth extends StrategyAbstract {
     super("github");
   }
   createStrategy() {
-    console.log("Server Created", getServer().created)
     return new GithubStrategy(
       {
         clientID: process.env.GITHUB_CLIENT_ID,

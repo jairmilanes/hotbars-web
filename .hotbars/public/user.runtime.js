@@ -1,5 +1,5 @@
-const defaults = require("E:/APPS/packages/hotbars/src/client/_public/bundles/defaults.runtime.js");
-const helpers = require("E:/APPS/packages/hotbars-web/src/helpers");
+const defaults = require("J:/APPS/packages/hotbars/src/client/_public/bundles/defaults.runtime.js");
+const helpers = require("J:/APPS/packages/hotbars-web/src/helpers");
 const allHelpers = { ...defaults, ...helpers };
 
 Object.keys(allHelpers)
