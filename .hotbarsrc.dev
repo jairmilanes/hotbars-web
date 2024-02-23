@@ -22,7 +22,9 @@
   },
   "git": {
     "name": "jairmilanes",
-    "repo": "hotbars-test"
+    "repo": "hotbars-web",
+    "username": "jairmilanes",
+    "email": "weblayoutz@gmail.com"
   },
   "auth": {
     "enabled": true,

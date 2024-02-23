@@ -3,6 +3,12 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=yarn,node,visualstudiocode
 
 src/db
+envs
+.dev
+.local
+.test
+.prod
+
 
 ### Node ###
 # Logs
