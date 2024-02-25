@@ -31,5 +31,9 @@
   "upload": {
     "enabled": true,
     "types": []
+  },
+  "cache": {
+    "enabled": true,
+    "expire": 5600
   }
 }
