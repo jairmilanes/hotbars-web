@@ -33,7 +33,7 @@
     "types": []
   },
   "cache": {
-    "enabled": true,
+    "enabled": false,
     "expire": 5600
   }
 }
