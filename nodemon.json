@@ -4,8 +4,8 @@
     "../hotbars/src/**/*.ts"
   ],
   "ignore": [
-    "./tests/**",
-    "../hotbars/src/client/**"
+    "./tests",
+    "../hotbars/src/client"
   ],
   "execMap": {
     "ts": "ts-node --project=../hotbars/tsconfig.web.json {{filename}} serve -D --configName .hotbarsrc.dev"
