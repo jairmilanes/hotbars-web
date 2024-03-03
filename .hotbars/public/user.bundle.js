@@ -30743,10 +30743,7 @@ module.exports = clb({
       checkbox: "w-4 h-4 border-2 rounded focus:ring-2 text-%accent-600 bg-%bg-100 border-%border-300 focus:ring-%accent-500 dark:text-%accent-500 dark:bg-%bg-700 dark:border-%border-600 dark:ring-offset-%border-800 dark:focus:border-%border-900 dark:focus:ring-%accent-600",
       radio: "w-4 h-4 border rounded-full focus:ring-2 text-%accent-600 bg-%bg-100 border-%border-300 focus:ring-%border-500 dark:text-%accent-500 dark:bg-%bg-700 dark:border-%border-600 dark:ring-offset-%border-800 dark:focus:ring-%accent-600",
     },
-    invalid: {
-      "true": "invalid:bg-red-100 invalid:border-red-500 focus:invalid:border-red-500 focus:invalid:ring-pink-500 invalid:dark:bg-red-900 invalid:dark:border-red-500 focus:invalid:dark:border-red-500",
-      "false": ""
-    },
+    invalid: "invalid:bg-red-100 invalid:border-red-500 focus:invalid:border-red-500 focus:invalid:ring-pink-500 invalid:dark:bg-red-900 invalid:dark:border-red-500 focus:invalid:dark:border-red-500",
     rounded: {
       true: "rounded-lg",
     },
