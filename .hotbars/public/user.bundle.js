@@ -30748,7 +30748,7 @@ module.exports = clb({
       true: "rounded-lg",
     },
     size: {
-      sm: "p-2 text-sm",
+      sm: "p-1.5 text-sm",
       md: "p-2.5 text-md",
       lg: "px-4 py-3 text-lg",
     },
