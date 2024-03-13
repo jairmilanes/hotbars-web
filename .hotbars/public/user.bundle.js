@@ -11,7 +11,7 @@ Object.keys(allHelpers)
       Handlebars.registerHelper(allHelpers[name]);
     }
   });
-},{"J:/APPS/packages/hotbars-web/src/helpers":3,"J:/APPS/packages/hotbars/src/client/_public/bundles/defaults.runtime.js":252}],2:[function(require,module,exports){
+},{"J:/APPS/packages/hotbars-web/src/helpers":3,"J:/APPS/packages/hotbars/src/client/_public/bundles/defaults.runtime.js":254}],2:[function(require,module,exports){
 /**
  * Helper usado para acessar dados em qualquer context
  * sem precisar mudar o cominho do context  com '../',
@@ -29956,6 +29956,28 @@ module.exports = function (dataKey, options) {
 
 
 },{}],236:[function(require,module,exports){
+
+/**
+ * Helper to facilitate the access to form values
+ * by form components.
+ *
+ * Use:
+ * ```
+ * {{value "field-name"}}
+ * ```
+ *
+ * @param {string} fieldName
+ * @param {?string|object} formName
+ * @param {object} options
+ * @returns {(string|number|null|undefined)}
+ */
+module.exports = function (...entries) {
+  const options = entries.pop()
+  return entries.reduce((ac, str) => ac.concat(str), "")
+};
+
+
+},{}],237:[function(require,module,exports){
 /**
  * Helper usado para acessar dados em qualquer context
  * sem precisar mudar o cominho do context  com '../',
@@ -29987,7 +30009,7 @@ module.exports = function (path, options) {
 };
 
 
-},{}],237:[function(require,module,exports){
+},{}],238:[function(require,module,exports){
 /**
  * Helper usado para acessar dados em qualquer context
  * sem precisar mudar o cominho do context  com '../',
@@ -30026,7 +30048,7 @@ module.exports.case = function(conditional, options) {
   }
 }
 
-},{}],238:[function(require,module,exports){
+},{}],239:[function(require,module,exports){
 const util = require("handlebars-utils");
 function recurse(props, opts) {
   if (!props.length) return opts;
@@ -30076,7 +30098,7 @@ module.exports.i18n = function (prop, locals, options) {
 
 module.exports.i = module.exports.i18n;
 
-},{"handlebars-utils":95}],239:[function(require,module,exports){
+},{"handlebars-utils":95}],240:[function(require,module,exports){
 const tailwind = require("./tailwind");
 const vvar = require("./var");
 const toString = require("./toString");
@@ -30086,11 +30108,13 @@ const { iIf, switch: sSwitch, case: sCase } = require("./i-if");
 const attr = require("./attr");
 const color = require("./_color");
 const clear = require("./clear");
+const value = require("./value");
+const concat = require("./concat");
 
-module.exports = { tailwind, clear, _color: color, attr, var: vvar, toStr: toString, joinArgs, _get: data, iIf, switch: sSwitch, case: sCase };
+module.exports = { tailwind, concat, value, clear, _color: color, attr, var: vvar, toStr: toString, joinArgs, _get: data, iIf, switch: sSwitch, case: sCase };
 
 
-},{"./_color":233,"./attr":234,"./clear":235,"./data":236,"./i-if":237,"./join-args":240,"./tailwind":241,"./toString":242,"./var":243}],240:[function(require,module,exports){
+},{"./_color":233,"./attr":234,"./clear":235,"./concat":236,"./data":237,"./i-if":238,"./join-args":241,"./tailwind":242,"./toString":243,"./value":244,"./var":245}],241:[function(require,module,exports){
 /**
  * Helper that joins as many arguments passed as an array.
  *
@@ -30112,7 +30136,7 @@ module.exports.joinArgs = function (...args) {
   return args.join(separator);
 };
 
-},{}],241:[function(require,module,exports){
+},{}],242:[function(require,module,exports){
 // const requireFresh = require("../_lib/require-fresh")(require);
 const components = require("../_lib/tailwind");
 
@@ -30219,7 +30243,7 @@ tailwind._alertClose = function (options) {
   return components._alert._close(options.hash || {});
 };
 
-},{"../_lib/tailwind":248}],242:[function(require,module,exports){
+},{"../_lib/tailwind":250}],243:[function(require,module,exports){
 /**
  * Comnvert a value to string
  *
@@ -30250,7 +30274,67 @@ module.exports.toStr = function (value, options) {
   return value;
 };
 
-},{}],243:[function(require,module,exports){
+},{}],244:[function(require,module,exports){
+const isNill = (value) => value === null || value === undefined;
+const isObject = (value) => typeof value === "object" && !isNill(value)
+/**
+ * Helper to facilitate the access to form values
+ * by form components.
+ *
+ * Use:
+ * ```
+ * {{value "field-name"}}
+ * ```
+ *
+ * @param {string} fieldName
+ * @param {?string|object} formName
+ * @param {object} options
+ * @returns {(string|number|null|undefined)}
+ */
+module.exports = function (fieldName, formName, options) {
+  if (isObject(fieldName)) {
+    return
+  }
+
+  if (isObject(formName)) {
+    options = formName
+  }
+
+  if (typeof formName === "string") {
+    if (!isNill(options.data.root[formName][fieldName])) {
+      return options.data.root[formName][fieldName]
+    }
+
+    if (!isNill(options.data.root?.forms[formName])) {
+      return options.data.root?.forms[formName][fieldName]
+    }
+  }
+
+  if (isObject(options.data.local) && !isNill(options.data.local?.value)) {
+    return options.data.local?.value
+  }
+
+  if (isObject(options.data.local?._locals) && !isNill(options.data.local?._locals?.value)) {
+    return options.data.local?._locals?.value
+  }
+
+  if (isObject(options.data.local) && !isNill(options.data.local[fieldName])) {
+    return options.data.local[fieldName]
+  }
+
+  if (isObject(options.data.root?.form) && !isNill(options.data.root?.form[fieldName])) {
+    return options.data.root?.form[fieldName]
+  }
+
+  if (isObject(options.data.root?.values) && !isNill(options.data.root?.values[fieldName])) {
+    return options.data.root?.values[fieldName]
+  }
+
+  return undefined;
+};
+
+
+},{}],245:[function(require,module,exports){
 /**
  * Create a variable in the context for later use
  *
@@ -30276,7 +30360,7 @@ module.exports.var = function (key, value, options) {
   options.data.local[key] = value;
 };
 
-},{}],244:[function(require,module,exports){
+},{}],246:[function(require,module,exports){
 const clsx = require("clsx");
 const isObject = (value) => value !== null && typeof value === "object";
 const isBoolean = (maybeBoolean) => typeof maybeBoolean === "boolean";
@@ -30461,7 +30545,7 @@ const clb =
 
 module.exports = clb;
 
-},{"clsx":21}],245:[function(require,module,exports){
+},{"clsx":21}],247:[function(require,module,exports){
 const clb = require("../../_lib/clb");
 
 module.exports._body = clb({
@@ -30551,7 +30635,7 @@ module.exports._icon = clb({
   },
 });
 
-},{"../../_lib/clb":244}],246:[function(require,module,exports){
+},{"../../_lib/clb":246}],248:[function(require,module,exports){
 const clb = require("../../_lib/clb");
 
 module.exports = clb({
@@ -30598,7 +30682,7 @@ module.exports = clb({
   },
 });
 
-},{"../../_lib/clb":244}],247:[function(require,module,exports){
+},{"../../_lib/clb":246}],249:[function(require,module,exports){
 const clb = require("../../_lib/clb");
 
 module.exports = clb({
@@ -30729,7 +30813,7 @@ module.exports.body = clb({
     },
   },
 });
-},{"../../_lib/clb":244}],248:[function(require,module,exports){
+},{"../../_lib/clb":246}],250:[function(require,module,exports){
 // const requireFresh = require("../../_lib/require-fresh")(require);
 module.exports = {
   _layout: require("./layout"),
@@ -30740,7 +30824,7 @@ module.exports = {
   _card: require("./card"),
 };
 
-},{"./alert":245,"./button":246,"./card":247,"./input":249,"./label":250,"./layout":251}],249:[function(require,module,exports){
+},{"./alert":247,"./button":248,"./card":249,"./input":251,"./label":252,"./layout":253}],251:[function(require,module,exports){
 const clb = require("../../_lib/clb");
 
 module.exports = clb({
@@ -30786,7 +30870,7 @@ module.exports = clb({
   },
 });
 
-},{"../../_lib/clb":244}],250:[function(require,module,exports){
+},{"../../_lib/clb":246}],252:[function(require,module,exports){
 const clb = require("../clb");
 
 module.exports = clb({
@@ -30811,7 +30895,7 @@ module.exports = clb({
   },
 });
 
-},{"../clb":244}],251:[function(require,module,exports){
+},{"../clb":246}],253:[function(require,module,exports){
 const clb = require("../../_lib/clb");
 
 module.exports = clb({
@@ -30873,7 +30957,7 @@ module.exports = clb({
     },
   },
 });
-},{"../../_lib/clb":244}],252:[function(require,module,exports){
+},{"../../_lib/clb":246}],254:[function(require,module,exports){
 const array = require(`handlebars-helpers/lib/array`);
 const collection = require(`handlebars-helpers/lib/collection`);
 const comparison = require(`handlebars-helpers/lib/comparison`);
@@ -30906,4 +30990,4 @@ module.exports = {
   ...helpers
 };
 
-},{"../../_helpers":239,"../../_helpers/i18n":238,"handlebars-helpers/lib/array":62,"handlebars-helpers/lib/collection":63,"handlebars-helpers/lib/comparison":64,"handlebars-helpers/lib/html":65,"handlebars-helpers/lib/inflection":66,"handlebars-helpers/lib/math":67,"handlebars-helpers/lib/number":68,"handlebars-helpers/lib/object":69,"handlebars-helpers/lib/regex":70,"handlebars-helpers/lib/string":71,"handlebars-helpers/lib/url":72,"handlebars-layouts":94}]},{},[1]);
+},{"../../_helpers":240,"../../_helpers/i18n":239,"handlebars-helpers/lib/array":62,"handlebars-helpers/lib/collection":63,"handlebars-helpers/lib/comparison":64,"handlebars-helpers/lib/html":65,"handlebars-helpers/lib/inflection":66,"handlebars-helpers/lib/math":67,"handlebars-helpers/lib/number":68,"handlebars-helpers/lib/object":69,"handlebars-helpers/lib/regex":70,"handlebars-helpers/lib/string":71,"handlebars-helpers/lib/url":72,"handlebars-layouts":94}]},{},[1]);
