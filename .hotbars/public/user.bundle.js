@@ -11,7 +11,7 @@ Object.keys(allHelpers)
       Handlebars.registerHelper(allHelpers[name]);
     }
   });
-},{"J:/APPS/packages/hotbars-web/src/helpers":3,"J:/APPS/packages/hotbars/src/client/_public/bundles/defaults.runtime.js":254}],2:[function(require,module,exports){
+},{"J:/APPS/packages/hotbars-web/src/helpers":3,"J:/APPS/packages/hotbars/src/client/_public/bundles/defaults.runtime.js":255}],2:[function(require,module,exports){
 /**
  * Helper usado para acessar dados em qualquer context
  * sem precisar mudar o cominho do context  com '../',
@@ -29913,12 +29913,24 @@ module.exports = function (color, intensity, options) {
 
 
 },{}],234:[function(require,module,exports){
-module.exports = function (options) {
-  return Object.keys(options.hash || {}).reduce((str, key) => {
-    const val = String(options.hash[key]).replace(/^['"]|["']$/g, "");
+module.exports.attrObj = function (obj, options) {
+  return Object.keys(obj || {}).reduce((str, key) => {
+    const val = String(obj[key]).replace(/^['"]|["']$/g, "");
 
     if (val && val !== "null" && val !== "undefined" && val !==null && val !== undefined) {
       return str.concat(` ${key}="${val}"`);
+    }
+
+    return str;
+  }, "");
+};
+
+module.exports.attrData = function (obj, options) {
+  return Object.keys(obj || {}).reduce((str, key) => {
+    const val = String(obj[key]).replace(/^['"]|["']$/g, "");
+
+    if (val && val !== "null" && val !== "undefined" && val !== null && val !== undefined) {
+      return str.concat(` data-${key}="${val}"`);
     }
 
     return str;
@@ -30105,16 +30117,18 @@ const toString = require("./toString");
 const joinArgs = require("./join-args");
 const data = require("./data");
 const { iIf, switch: sSwitch, case: sCase } = require("./i-if");
-const attr = require("./attr");
 const color = require("./_color");
 const clear = require("./clear");
 const value = require("./value");
 const concat = require("./concat");
+const prop = require("./prop");
 
-module.exports = { tailwind, concat, value, clear, _color: color, attr, var: vvar, toStr: toString, joinArgs, _get: data, iIf, switch: sSwitch, case: sCase };
+const { attrData, attrObj } = require("./attr-obj");
+
+module.exports = { tailwind, concat, attrData, attrObj, prop, value, clear, _color: color, var: vvar, toStr: toString, joinArgs, _get: data, iIf, switch: sSwitch, case: sCase };
 
 
-},{"./_color":233,"./attr":234,"./clear":235,"./concat":236,"./data":237,"./i-if":238,"./join-args":241,"./tailwind":242,"./toString":243,"./value":244,"./var":245}],241:[function(require,module,exports){
+},{"./_color":233,"./attr-obj":234,"./clear":235,"./concat":236,"./data":237,"./i-if":238,"./join-args":241,"./prop":242,"./tailwind":243,"./toString":244,"./value":245,"./var":246}],241:[function(require,module,exports){
 /**
  * Helper that joins as many arguments passed as an array.
  *
@@ -30137,6 +30151,28 @@ module.exports.joinArgs = function (...args) {
 };
 
 },{}],242:[function(require,module,exports){
+/**
+ * Helper usado para acessar dados em qualquer context
+ * sem precisar mudar o cominho do context  com '../',
+ * o que causa errors quando formatando os arquivos com
+ * com prettier.
+ *
+ * Uso:
+ * ```
+ * {{data "user.username"}}
+ * {{data "user.list.2.username"}}
+ * ```
+ *
+ * @param {string} path
+ * @param {object} options
+ * @returns {(string|number|null|undefined)}
+ */
+module.exports = function (obj, prop, options) {
+  return obj[prop];
+};
+
+
+},{}],243:[function(require,module,exports){
 // const requireFresh = require("../_lib/require-fresh")(require);
 const components = require("../_lib/tailwind");
 
@@ -30243,7 +30279,7 @@ tailwind._alertClose = function (options) {
   return components._alert._close(options.hash || {});
 };
 
-},{"../_lib/tailwind":250}],243:[function(require,module,exports){
+},{"../_lib/tailwind":251}],244:[function(require,module,exports){
 /**
  * Comnvert a value to string
  *
@@ -30274,7 +30310,7 @@ module.exports.toStr = function (value, options) {
   return value;
 };
 
-},{}],244:[function(require,module,exports){
+},{}],245:[function(require,module,exports){
 const isNill = (value) => value === null || value === undefined;
 const isObject = (value) => typeof value === "object" && !isNill(value)
 /**
@@ -30334,7 +30370,7 @@ module.exports = function (fieldName, formName, options) {
 };
 
 
-},{}],245:[function(require,module,exports){
+},{}],246:[function(require,module,exports){
 /**
  * Create a variable in the context for later use
  *
@@ -30360,7 +30396,7 @@ module.exports.var = function (key, value, options) {
   options.data.local[key] = value;
 };
 
-},{}],246:[function(require,module,exports){
+},{}],247:[function(require,module,exports){
 const clsx = require("clsx");
 const isObject = (value) => value !== null && typeof value === "object";
 const isBoolean = (maybeBoolean) => typeof maybeBoolean === "boolean";
@@ -30545,7 +30581,7 @@ const clb =
 
 module.exports = clb;
 
-},{"clsx":21}],247:[function(require,module,exports){
+},{"clsx":21}],248:[function(require,module,exports){
 const clb = require("../../_lib/clb");
 
 module.exports._body = clb({
@@ -30635,7 +30671,7 @@ module.exports._icon = clb({
   },
 });
 
-},{"../../_lib/clb":246}],248:[function(require,module,exports){
+},{"../../_lib/clb":247}],249:[function(require,module,exports){
 const clb = require("../../_lib/clb");
 
 module.exports = clb({
@@ -30682,7 +30718,7 @@ module.exports = clb({
   },
 });
 
-},{"../../_lib/clb":246}],249:[function(require,module,exports){
+},{"../../_lib/clb":247}],250:[function(require,module,exports){
 const clb = require("../../_lib/clb");
 
 module.exports = clb({
@@ -30813,7 +30849,7 @@ module.exports.body = clb({
     },
   },
 });
-},{"../../_lib/clb":246}],250:[function(require,module,exports){
+},{"../../_lib/clb":247}],251:[function(require,module,exports){
 // const requireFresh = require("../../_lib/require-fresh")(require);
 module.exports = {
   _layout: require("./layout"),
@@ -30824,7 +30860,7 @@ module.exports = {
   _card: require("./card"),
 };
 
-},{"./alert":247,"./button":248,"./card":249,"./input":251,"./label":252,"./layout":253}],251:[function(require,module,exports){
+},{"./alert":248,"./button":249,"./card":250,"./input":252,"./label":253,"./layout":254}],252:[function(require,module,exports){
 const clb = require("../../_lib/clb");
 
 module.exports = clb({
@@ -30870,7 +30906,7 @@ module.exports = clb({
   },
 });
 
-},{"../../_lib/clb":246}],252:[function(require,module,exports){
+},{"../../_lib/clb":247}],253:[function(require,module,exports){
 const clb = require("../clb");
 
 module.exports = clb({
@@ -30895,7 +30931,7 @@ module.exports = clb({
   },
 });
 
-},{"../clb":246}],253:[function(require,module,exports){
+},{"../clb":247}],254:[function(require,module,exports){
 const clb = require("../../_lib/clb");
 
 module.exports = clb({
@@ -30957,7 +30993,7 @@ module.exports = clb({
     },
   },
 });
-},{"../../_lib/clb":246}],254:[function(require,module,exports){
+},{"../../_lib/clb":247}],255:[function(require,module,exports){
 const array = require(`handlebars-helpers/lib/array`);
 const collection = require(`handlebars-helpers/lib/collection`);
 const comparison = require(`handlebars-helpers/lib/comparison`);
