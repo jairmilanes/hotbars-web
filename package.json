@@ -6,7 +6,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon ../hotbars/src/cli.ts",
     "serve": "nodemon --watch ../hotbars/src/**/*.ts --exec ts-node --project=../hotbars/tsconfig.web.json ../hotbars/src/cli.ts serve",
-    "fake": "hotbars fake",
+    "fake": "ts-node --project=../hotbars/tsconfig.app.json ../hotbars/src/cli.ts fake ./db/db.json",
     "bundle": "browserify ../dist/client/_public/tailwind.js -o ../dist/client/_public/tailwind.bundle.js --external=Handlebars --ignore=Handlebars",
     "uglify": "uglifyjs --compress --mangle --source-map --output ../dist/client/_public/tailwind.bundle.min.js ../dist/client/_public/tailwind.bundle.js",
     "build:tailwind": "npm run bundle && npm run uglify"
