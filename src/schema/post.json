@@ -1,7 +1,8 @@
 {
-  "size": 5,
+  "size": 200,
   "name": "posts",
   "schema": {
+    "id": "datatype.uuid",
     "title": "lorem.sentence",
     "content": "lorem.paragraphs:4..6",
     "userId": "one-to-one:users.id"

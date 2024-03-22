@@ -1,12 +1,12 @@
 {
-  "size": 10,
+  "size": 200,
   "name": "users",
   "schema": {
     "id": "datatype.uuid",
     "createdAt": "date.past",
     "gender": "name.sex",
-    "firstName": "unique:name.firstName",
-    "lastName": "unique:name.lastName:prop.gender",
+    "firstName": "name.firstName",
+    "lastName": "name.lastName:prop.gender",
     "username": "lodash.join:prop.firstName+prop.lastName,_",
     "password": "hash:internet.password",
     "avatar": "unique:internet.avatar",
