@@ -37804,16 +37804,16 @@ module.exports = function (fieldName, formName, options) {
     return options.data.local?._locals?.value
   }
 
-  if (isObject(options.data.local) && !isNill(options.data.local[fieldName])) {
-    return options.data.local[fieldName]
-  }
-
   if (isObject(options.data.root?.form) && !isNill(options.data.root?.form[fieldName])) {
     return options.data.root?.form[fieldName]
   }
 
   if (isObject(options.data.root?.values) && !isNill(options.data.root?.values[fieldName])) {
     return options.data.root?.values[fieldName]
+  }
+
+  if (isObject(options.data.local) && !isNill(options.data.local[fieldName])) {
+    return options.data.local[fieldName]
   }
 
   return undefined;
@@ -38162,11 +38162,12 @@ module.exports = clb({
       lg: "px-6 py-2.5 text-md font-medium",
       iconSm: "w-8 h-8 text-sm font-medium items-center justify-center",
       icon: "w-10 h-10 text-md font-medium items-center justify-center",
-      iconLg: "w-11 h-11 text-lg font-medium items-center justify-center",
+      iconLg: "w-11 h-11 !text-lg font-medium items-center justify-center",
       link: "p-0 m-0 text-center",
     },
   },
 });
+
 
 },{"../../_lib/clb":297}],300:[function(require,module,exports){
 const clb = require("../../_lib/clb");
