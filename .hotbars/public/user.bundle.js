@@ -37658,6 +37658,11 @@ tailwind._button = function (options) {
   return components._button(options.hash || {});
 };
 
+tailwind._icon = function (options) {
+  options.hash = options.hash || {};
+  return components._button.icon(options.hash || {});
+};
+
 tailwind._label = function (options) {
   return components._label(options.hash || {});
 };
@@ -38172,7 +38177,20 @@ module.exports = clb({
   },
 });
 
-
+module.exports.icon = clb({
+  defaults: {},
+  variants: {
+    size: {
+      iconSm: "text-sm",
+      icon: "text-md",
+      iconLg: "text-lg",
+      iconXl: "text-xl",
+      icon2xl: "text-2xl",
+      icon3xl: "text-3xl",
+      icon4xl: "text-4xl",
+    }
+  }
+})
 },{"../../_lib/clb":297}],300:[function(require,module,exports){
 const clb = require("../../_lib/clb");
 
