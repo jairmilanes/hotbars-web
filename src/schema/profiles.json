@@ -1,14 +1,12 @@
 {
   "size": 200,
-  "name": "users",
+  "name": "profiles",
   "schema": {
     "id": "datatype.uuid",
-    "createdAt": "date.past",
+    "userId": "",
     "gender": "name.sex",
     "firstName": "name.firstName",
     "lastName": "name.lastName:prop.gender",
-    "username": "lodash.join:prop.firstName+prop.lastName,_",
-    "password": "hash:internet.password",
     "avatar": "unique:internet.avatar",
     "country": "use:Brasil",
     "countryCode": "use:BR",
